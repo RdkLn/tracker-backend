@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: db.changelog-master
+      author: rdkln
+      changes:
+        - createTable:
+            tableName: Weight
+            columns:
+            - column:
+                name: id
+                type: bigserial
+            - column:
+                name: weight
+                type: decimal
+            - column:
+                name: weighInDate
+                type: datetime
