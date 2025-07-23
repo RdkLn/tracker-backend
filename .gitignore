@@ -37,3 +37,4 @@ build/
 *.properties
 !application.properties
 application.yml
+db_password.txt
