@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: db.changelog-user
+      author: rdkln
+      changes:
+        - createTable:
+            tableName: User
+            columns:
+            - column:
+                name: id
+                type: bigserial
+                constraints:
+                  primaryKey: true
+            - column:
+                name: name
+                type: varchar
+        - createTable:
+            tableName: WeightHistory
+            columns:
+            - column:
+                name: id
+                type: bigserial
+                constraints:
+                  primaryKey: true
+            - column:
+                name: weight
+                type: decimal
+            - column:
+                name: weighInDate
+                type: datetime
+            - column:
+                name: user_id
+                type: bigserial
