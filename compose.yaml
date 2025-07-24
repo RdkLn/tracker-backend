@@ -3,18 +3,23 @@ services:
     image: tracker-java:latest
     ports:
       - "8080:8080"
-  db:
-    image: "postgres:17-alpine"
-    ports:
-      - "5432:5432"
-    volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
+    depends_on:
+      - db
     environment:
-      - POSTGRES_PASSWORD=
+      - SPRING_DATASOURCE_URL= jdbc:postgresql://db:5432/postgres
+  db:
+    image: postgres:17-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - /var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_PASSWORD= /run/secrets/db_password
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=/run/secrets/db_password
+      - POSTGRES_DB=postgres
     secrets:
       - db_password
 secrets:
   db_password:
-    file: db_password.txt
+    file: ./db_password.txt
