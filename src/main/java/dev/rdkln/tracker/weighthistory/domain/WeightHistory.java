@@ -2,12 +2,14 @@ package dev.rdkln.tracker.weighthistory.domain;
 
 import java.time.LocalDateTime;
 
-import dev.rdkln.tracker.user.domain.User;
+import dev.rdkln.tracker.user.domain.UserId;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,11 +27,12 @@ public class WeightHistory {
 
     private LocalDateTime weighInDate;
 
-    @ManyToOne(optional = false)
-    private User user;
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "user_id"))
+    private UserId userId;
 
-    public WeightHistory(User user, LocalDateTime date, Double weight) {
-        this.user = user;
+    public WeightHistory(UserId user, LocalDateTime date, Double weight) {
+        this.userId = user;
         this.weighInDate = date;
         this.weight = weight;
     }
