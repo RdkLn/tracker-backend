@@ -4,7 +4,7 @@ databaseChangeLog:
       author: rdkln
       changes:
         - createTable:
-            tableName: exercisetype
+            tableName: exercise_type
             columns:
               - column:
                   name: id
@@ -22,7 +22,7 @@ databaseChangeLog:
                   constraints:
                     nullable: true
         - createTable:
-            tableName: workoutsession
+            tableName: workout_session
             columns:
               - column:
                   name: id
@@ -63,16 +63,16 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_type_id
-                    references: exercisetype(id)
+                    references: exercise_type(id)
               - column:
-                  name: workoutsessionid
+                  name: workout_session_id
                   type: bigserial
                   constraints:
                     nullable: false
                     foreignKeyName: fk_workout_session_id
-                    references: workoutsession(id)
+                    references: workout_session(id)
         - createTable:
-            tableName: exerciseset
+            tableName: exercise_set
             columns:
               - column:
                   name: id

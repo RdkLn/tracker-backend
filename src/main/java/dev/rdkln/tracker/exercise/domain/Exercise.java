@@ -21,7 +21,7 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "exercise")
     private List<ExerciseSet> sets;
 
     private String tips;
