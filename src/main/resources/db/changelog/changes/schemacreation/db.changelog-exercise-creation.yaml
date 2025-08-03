@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: db.changelog-user-creation
+      author: rdkln
+      changes:
+        - createTable:
+            tableName: exercise_type
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar
+                  constraints:
+                    nullable: true
+        - createTable:
+            tableName: workout_session
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigserial
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar
+                  constraints:
+                    nullable: true
+        - createTable:
+            tableName: exercise
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: tips
+                  type: varchar
+                  constraints:
+                    nullable: true
+              - column:
+                  name: type
+                  type: bigserial
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_type_id
+                    references: exercise_type(id)
+              - column:
+                  name: workout_session_id
+                  type: bigserial
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_workout_session_id
+                    references: workout_session(id)
+        - createTable:
+            tableName: exercise_set
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: weight
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: notes
+                  type: varchar
+                  constraints:
+                    nullable: true
+              - column:
+                  name: reps
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exercise_id
+                  type: bigserial
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_exercise_id
+                    references: exercise(id)
