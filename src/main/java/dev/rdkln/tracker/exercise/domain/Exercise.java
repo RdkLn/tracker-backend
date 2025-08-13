@@ -1,5 +1,6 @@
 package dev.rdkln.tracker.exercise.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.rdkln.tracker.exerciseset.domain.ExerciseSet;
@@ -14,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,7 +31,8 @@ public class Exercise {
     private Long id;
 
     @OneToMany(mappedBy = "exercise")
-    private List<ExerciseSet> sets;
+    @Default
+    private List<ExerciseSet> sets = new ArrayList<>();
 
     private String tips;
 

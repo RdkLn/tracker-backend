@@ -48,5 +48,4 @@ public class ExerciseController {
     public Exercise postMethodName(@RequestBody @Valid Exercise entry) {
         return repository.save(entry);
     }
-
 }
