@@ -10,6 +10,7 @@ import dev.rdkln.tracker.exercise.domain.Exercise;
 import dev.rdkln.tracker.user.domain.UserId;
 import dev.rdkln.tracker.workoutsession.domain.WorkoutSession;
 import dev.rdkln.tracker.workoutsession.domain.WorkoutSessionRepository;
+import dev.rdkln.tracker.workoutsession.rest.WorkoutSessionNotFoundException;
 import dev.rdkln.tracker.workoutsession.rest.dto.CreateWorkoutSessionDTO;
 import dev.rdkln.tracker.workoutsession.rest.dto.ViewWorkoutSessionDTO;
 import dev.rdkln.tracker.workoutsession.rest.dto.ViewWorkoutSessionDTO.ViewExcerciseTypeDTO;
@@ -49,14 +50,16 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public List<ViewWorkoutSessionDTO> listWorkouts(UserId userId) {
-        List<WorkoutSession> entries = repository.findAllByUserIdId(userId);
+        List<WorkoutSession> entries = repository.findAllByUserId(userId);
         return entries.stream().map(this::mapEntityToDto).toList();
     }
 
     @Override
-    public Optional<ViewWorkoutSessionDTO> findWorkoutByDate(UserId userId, LocalDate date) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findWorkoutByDate'");
+    public ViewWorkoutSessionDTO findWorkoutByDate(UserId userId, LocalDate date) {
+        Optional<WorkoutSession> entry = repository.findFirstByUserIdAndDate(userId, date);
+        if (entry.isEmpty())
+            throw new WorkoutSessionNotFoundException(userId, date);
+        return mapEntityToDto(entry.get());
     }
 
     ViewWorkoutSessionDTO mapEntityToDto(WorkoutSession session) {
