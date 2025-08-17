@@ -67,7 +67,7 @@ class ExerciseControllerTests {
                     }
                   }
                 """;
-        when(exerciseRepository.findById(1L)).thenReturn(Optional.of(exercises.get(0)));
+        when(exerciseRepository.findById(1L)).thenReturn(Optional.of(exercise));
         mockMvc.perform(get("/exercise/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResult));

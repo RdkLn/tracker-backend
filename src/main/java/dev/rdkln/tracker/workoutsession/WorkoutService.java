@@ -2,7 +2,6 @@ package dev.rdkln.tracker.workoutsession;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import dev.rdkln.tracker.exercise.domain.Exercise;
 import dev.rdkln.tracker.user.domain.UserId;
@@ -19,6 +18,6 @@ public interface WorkoutService {
 
     List<ViewWorkoutSessionDTO> listWorkouts(UserId userId);
 
-    Optional<ViewWorkoutSessionDTO> findWorkoutByDate(UserId userId, LocalDate date);
+    ViewWorkoutSessionDTO findWorkoutByDate(UserId userId, LocalDate date);
 
 }

@@ -23,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import dev.rdkln.tracker.user.domain.UserId;
 import dev.rdkln.tracker.workoutsession.domain.WorkoutSession;
 import dev.rdkln.tracker.workoutsession.domain.WorkoutSessionRepository;
+import dev.rdkln.tracker.workoutsession.rest.WorkoutSessionNotFoundException;
 import dev.rdkln.tracker.workoutsession.rest.dto.CreateWorkoutSessionDTO;
 import dev.rdkln.tracker.workoutsession.rest.dto.ViewWorkoutSessionDTO;
 
@@ -61,7 +62,7 @@ class WorkoutServiceImplTests {
                 new ViewWorkoutSessionDTO(2L, LocalDate.of(2025, 12, 12), 1L, new ArrayList<>()));
 
         UserId id = new UserId(1L);
-        when(repository.findAllByUserIdId(id)).thenReturn(sessions);
+        when(repository.findAllByUserId(id)).thenReturn(sessions);
         assertEquals(expectedResult, workoutService.listWorkouts(id));
     }
 
@@ -100,4 +101,23 @@ class WorkoutServiceImplTests {
         assertThrows(WorkoutSessionNotFoundException.class, () -> workoutService.deleteWorkout(sessionId, userId));
     }
 
+    @Test
+    void shouldFindSessionGivenValidDateAndUserId() {
+        var expectedResult = new ViewWorkoutSessionDTO(1L, LocalDate.of(2025, 12, 12), 1L, new ArrayList<>());
+
+        when(repository.findFirstByUserIdAndDate(new UserId(1L), LocalDate.of(2025, 12, 12)))
+                .thenReturn(Optional.of(sessions.get(0)));
+
+        assertEquals(expectedResult, workoutService.findWorkoutByDate(new UserId(1L), LocalDate.of(2025, 12, 12)));
+    }
+
+    @Test
+    void shouldntFindSessionGivenInvalidDateAndUserId() {
+
+        when(repository.findFirstByUserIdAndDate(new UserId(1L), LocalDate.of(2025, 12, 12)))
+                .thenReturn(Optional.of(sessions.get(0)));
+
+        assertThrows(WorkoutSessionNotFoundException.class,
+                () -> workoutService.findWorkoutByDate(new UserId(2L), LocalDate.of(2025, 12, 12)));
+    }
 }
