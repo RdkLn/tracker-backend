@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.rdkln.tracker.exerciseset.domain.ExerciseSet;
 import dev.rdkln.tracker.exercisetype.domain.ExerciseType;
+import dev.rdkln.tracker.workoutsession.domain.WorkoutSession;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,4 +41,8 @@ public class Exercise {
     @JoinColumn(name = "type", nullable = false)
     @NotNull(message = "ExerciseType cannot be null")
     private ExerciseType type;
+
+    @ManyToOne
+    @JoinColumn(name = "workout_session_id", nullable = false)
+    private WorkoutSession workoutSession;
 }
