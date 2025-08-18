@@ -1,6 +1,6 @@
 package dev.rdkln.tracker.workoutsession.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +32,13 @@ public class WorkoutSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Embedded
     @AttributeOverride(name = "id", column = @Column(name = "user_id"))
     private UserId userId;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE, mappedBy = "workoutSession")
     @Default
     private List<Exercise> exercises = new ArrayList<>();
 

@@ -1,9 +1,10 @@
 package dev.rdkln.tracker.workoutsession.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,11 @@ public interface WorkoutSessionRepository extends ListCrudRepository<WorkoutSess
 
     List<WorkoutSession> findAllByUserId(UserId id);
 
-    Optional<WorkoutSession> findFirstByUserIdAndDate(UserId userId, LocalDate date);
+    @Query("""
+            select ws from WorkoutSession ws
+            where ws.userId.id = :userId
+             and ws.date between :startDate and :endDate
+            """)
+    Optional<WorkoutSession> findByUserAndDate(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 
 }
