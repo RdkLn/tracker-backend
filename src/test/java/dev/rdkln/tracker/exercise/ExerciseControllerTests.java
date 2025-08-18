@@ -26,7 +26,7 @@ import dev.rdkln.tracker.exercise.domain.Exercise;
 import dev.rdkln.tracker.exercise.domain.ExerciseRepository;
 import dev.rdkln.tracker.exercisetype.domain.ExerciseType;
 
-@WebMvcTest(controllers = ExerciseController.class, excludeAutoConfiguration = (SecurityAutoConfiguration.class))
+@WebMvcTest(controllers = ExerciseController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc
 class ExerciseControllerTests {
 

@@ -50,8 +50,8 @@ class WorkoutServiceImplTests {
     @BeforeEach
     void setUp() {
         sessions = List.of(
-                WorkoutSession.builder().id(1L).userId(new UserId(1L)).date(LocalDate.of(2025, 12, 12)).build(),
-                WorkoutSession.builder().id(2L).userId(new UserId(1L)).date(LocalDate.of(2025, 12, 12)).build());
+                WorkoutSession.builder().id(1L).userId(new UserId(1L)).date(LocalDate.of(2025, 12, 12).atStartOfDay()).build(),
+                WorkoutSession.builder().id(2L).userId(new UserId(1L)).date(LocalDate.of(2025, 12, 12).atStartOfDay()).build());
     }
 
     @Test
@@ -105,7 +105,9 @@ class WorkoutServiceImplTests {
     void shouldFindSessionGivenValidDateAndUserId() {
         var expectedResult = new ViewWorkoutSessionDTO(1L, LocalDate.of(2025, 12, 12), 1L, new ArrayList<>());
 
-        when(repository.findFirstByUserIdAndDate(new UserId(1L), LocalDate.of(2025, 12, 12)))
+        when(repository.findByUserAndDate(new UserId(1L).id(), LocalDate.of(2025, 12, 12).atStartOfDay(),
+                LocalDate.of(2025, 12, 12)
+                        .atStartOfDay().plusDays(1)))
                 .thenReturn(Optional.of(sessions.get(0)));
 
         assertEquals(expectedResult, workoutService.findWorkoutByDate(new UserId(1L), LocalDate.of(2025, 12, 12)));
@@ -114,10 +116,14 @@ class WorkoutServiceImplTests {
     @Test
     void shouldntFindSessionGivenInvalidDateAndUserId() {
 
-        when(repository.findFirstByUserIdAndDate(new UserId(1L), LocalDate.of(2025, 12, 12)))
+        when(repository.findByUserAndDate(new UserId(1L).id(), LocalDate.of(2025, 12, 12).atStartOfDay(),
+                LocalDate.of(2025, 12, 12)
+                        .atStartOfDay().plusDays(1)))
                 .thenReturn(Optional.of(sessions.get(0)));
 
+        UserId invalidUserId=new UserId(2L);
+        LocalDate invalidDate=  LocalDate.of(2025, 12, 12);
         assertThrows(WorkoutSessionNotFoundException.class,
-                () -> workoutService.findWorkoutByDate(new UserId(2L), LocalDate.of(2025, 12, 12)));
+                () -> workoutService.findWorkoutByDate(invalidUserId,invalidDate));
     }
 }

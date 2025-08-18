@@ -28,7 +28,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public ViewWorkoutSessionDTO createWorkout(CreateWorkoutSessionDTO dto) {
-        WorkoutSession session = WorkoutSession.builder().id(dto.userId()).date(dto.date()).build();
+        WorkoutSession session = WorkoutSession.builder().id(dto.userId()).date(dto.date().atStartOfDay()).build();
         return mapEntityToDto(repository.save(session));
     }
 
@@ -56,7 +56,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public ViewWorkoutSessionDTO findWorkoutByDate(UserId userId, LocalDate date) {
-        Optional<WorkoutSession> entry = repository.findFirstByUserIdAndDate(userId, date);
+        Optional<WorkoutSession> entry = repository.findByUserAndDate(userId.id(), date.atStartOfDay(),date.atStartOfDay().plusDays(1));
         if (entry.isEmpty())
             throw new WorkoutSessionNotFoundException(userId, date);
         return mapEntityToDto(entry.get());
@@ -70,6 +70,7 @@ public class WorkoutServiceImpl implements WorkoutService {
                         ex.getTips(), new ViewExcerciseTypeDTO(ex.getType().getId(), ex.getType().getName(),
                                 ex.getType().getDescription())))
                 .toList();
-        return new ViewWorkoutSessionDTO(session.getId(), session.getDate(), session.getUserId().id(), exericisesDto);
+        return new ViewWorkoutSessionDTO(session.getId(), session.getDate().toLocalDate(), session.getUserId().id(),
+                exericisesDto);
     }
 }
