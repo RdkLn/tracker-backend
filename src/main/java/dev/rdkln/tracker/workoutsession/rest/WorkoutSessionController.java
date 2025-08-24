@@ -19,9 +19,11 @@ import dev.rdkln.tracker.user.domain.UserId;
 import dev.rdkln.tracker.workoutsession.WorkoutService;
 import dev.rdkln.tracker.workoutsession.rest.dto.CreateWorkoutSessionDTO;
 import dev.rdkln.tracker.workoutsession.rest.dto.ViewWorkoutSessionDTO;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("workouts")
+@Slf4j
 public class WorkoutSessionController {
 
     private WorkoutService workoutService;
@@ -52,5 +54,12 @@ public class WorkoutSessionController {
     public ViewWorkoutSessionDTO postMethodName(@RequestBody CreateWorkoutSessionDTO dto) {
         return workoutService.createWorkout(dto);
     }
+
+    @GetMapping("/days-trained")
+    public List<LocalDate> listDaysTrainedByUser(@RequestParam Long userId) {
+        log.info("Buscando dias entrendados por el usuario: {}",userId);
+        return workoutService.listDaysWorkedOut(new UserId(userId));
+    }
+
 
 }

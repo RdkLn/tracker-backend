@@ -14,6 +14,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,7 +27,7 @@ import dev.rdkln.tracker.exercise.domain.Exercise;
 import dev.rdkln.tracker.exercise.domain.ExerciseRepository;
 import dev.rdkln.tracker.exercisetype.domain.ExerciseType;
 
-@WebMvcTest(controllers = ExerciseController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@WebMvcTest(controllers = ExerciseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class,JpaRepositoriesAutoConfiguration.class})
 @AutoConfigureMockMvc
 class ExerciseControllerTests {
 

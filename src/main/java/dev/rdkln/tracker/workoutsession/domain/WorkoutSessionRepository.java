@@ -22,4 +22,10 @@ public interface WorkoutSessionRepository extends ListCrudRepository<WorkoutSess
             """)
     Optional<WorkoutSession> findByUserAndDate(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 
+    @Query("""
+            select ws.date
+             from WorkoutSession ws
+             where ws.userId=:userId
+            """)
+    List<LocalDateTime> findDaysWorkedOut(UserId userId);
 }

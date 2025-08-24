@@ -20,4 +20,6 @@ public interface WorkoutService {
 
     ViewWorkoutSessionDTO findWorkoutByDate(UserId userId, LocalDate date);
 
+    List<LocalDate> listDaysWorkedOut(UserId userId);
+
 }

@@ -1,6 +1,7 @@
 package dev.rdkln.tracker.workoutsession;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,5 +73,10 @@ public class WorkoutServiceImpl implements WorkoutService {
                 .toList();
         return new ViewWorkoutSessionDTO(session.getId(), session.getDate().toLocalDate(), session.getUserId().id(),
                 exericisesDto);
+    }
+
+    @Override
+    public List<LocalDate> listDaysWorkedOut(UserId userId) {
+        return repository.findDaysWorkedOut(userId).stream().map(LocalDateTime::toLocalDate).toList();
     }
 }
