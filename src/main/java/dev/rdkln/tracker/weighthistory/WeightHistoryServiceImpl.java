@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import dev.rdkln.tracker.user.domain.UserId;
 import dev.rdkln.tracker.weighthistory.domain.WeightHistory;
 import dev.rdkln.tracker.weighthistory.domain.WeightHistoryRepository;
-import dev.rdkln.tracker.weighthistory.rest.CreateWeightHistoryDTO;
-import dev.rdkln.tracker.weighthistory.rest.ViewWeightHistoryDTO;
+import dev.rdkln.tracker.weighthistory.rest.dto.CreateWeightHistoryDTO;
+import dev.rdkln.tracker.weighthistory.rest.dto.ViewWeightHistoryDTO;
 
 @Service("weightHistoryServiceImpl")
 public class WeightHistoryServiceImpl implements WeightHistoryService{
