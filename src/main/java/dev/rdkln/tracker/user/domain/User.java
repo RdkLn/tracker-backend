@@ -2,6 +2,8 @@ package dev.rdkln.tracker.user.domain;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,5 +21,14 @@ public class User {
 
     private String name;
 
-    private Double currentWeight;
+    private String password;
+
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    public static enum UserRole{
+        USER,ADMIN
+    }
 }
