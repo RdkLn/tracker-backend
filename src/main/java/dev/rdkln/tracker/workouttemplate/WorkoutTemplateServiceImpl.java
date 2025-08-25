@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import dev.rdkln.tracker.exercisetype.ExerciseTypeNotFoundException;
 import dev.rdkln.tracker.exercisetype.domain.ExerciseType;
 import dev.rdkln.tracker.exercisetype.domain.ExerciseTypeRepository;
+import dev.rdkln.tracker.user.domain.UserId;
 import dev.rdkln.tracker.workouttemplate.domain.ExerciseTemplate;
 import dev.rdkln.tracker.workouttemplate.domain.ExerciseTemplateRepository;
 import dev.rdkln.tracker.workouttemplate.domain.WorkoutTemplate;
@@ -15,6 +16,7 @@ import dev.rdkln.tracker.workouttemplate.domain.WorkoutTemplateRepository;
 import dev.rdkln.tracker.workouttemplate.rest.CreateTemplateDTO;
 import dev.rdkln.tracker.workouttemplate.rest.CreateTemplateDTO.CreateExerciseTemplateDTO;
 import dev.rdkln.tracker.workouttemplate.rest.ViewWorkoutTemplateDTO;
+import dev.rdkln.tracker.workouttemplate.rest.ViewWorkoutTemplateDTO.ViewExerciseTemplateDTO;
 import jakarta.transaction.Transactional;
 
 @Service("workoutTemplateServiceImpl")
@@ -69,6 +71,17 @@ public class WorkoutTemplateServiceImpl implements WorkoutTemplateService {
             throw new ExerciseTypeNotFoundException(id);
         }
         return type.get();
+    }
+
+    @Override
+    public List<ViewWorkoutTemplateDTO> findTemplatesByCreator(UserId userId) {
+        List<WorkoutTemplate> entries = workoutTemplateRepository.findByCreator(userId);
+        return entries.stream()
+                .map(entry -> new ViewWorkoutTemplateDTO(entry.getId(), entry.getExercises().stream()
+                        .map(exercise -> new ViewExerciseTemplateDTO(exercise.getExercisePriority(),
+                                exercise.getNumSets(), exercise.getSets(), exercise.getExerciseType().getName()))
+                        .toList(), entry.getCreator().id()))
+                .toList();
     }
 
 }

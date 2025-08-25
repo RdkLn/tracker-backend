@@ -26,7 +26,7 @@ public class WorkoutTemplate {
     @AttributeOverride(name = "id", column =  @Column(name = "creator"))
     private UserId creator;
 
-    @OneToMany
+    @OneToMany(mappedBy = "workoutTemplate")
     private List<ExerciseTemplate> exercises;
 
 
