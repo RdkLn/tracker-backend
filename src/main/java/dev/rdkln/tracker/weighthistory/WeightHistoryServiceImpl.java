@@ -28,6 +28,7 @@ public class WeightHistoryServiceImpl implements WeightHistoryService{
 
     @Override
     public WeightHistory addWeight(CreateWeightHistoryDTO dto, UserId userId) {
+        //TODO: Verify user
         LocalDateTime weighInDate=dto.date()!=null?dto.date().atStartOfDay():LocalDate.now().atStartOfDay();
         WeightHistory entry= new WeightHistory(userId,weighInDate, dto.weight());
         return repository.save(entry);
