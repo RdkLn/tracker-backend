@@ -65,23 +65,29 @@ public class WorkoutTemplateServiceImpl implements WorkoutTemplateService {
         throw new UnsupportedOperationException("Unimplemented method 'deleteTemplate'");
     }
 
+
+    @Override
+    public List<ViewWorkoutTemplateDTO> findTemplatesByCreator(UserId userId) {
+        List<WorkoutTemplate> entries = workoutTemplateRepository.findByCreator(userId);
+        return entries.stream()
+        .map(this::mapWorkoutTemplateToViewDTO)
+        .toList();
+    }
+
+    private ViewWorkoutTemplateDTO mapWorkoutTemplateToViewDTO(WorkoutTemplate entry) {
+        return new ViewWorkoutTemplateDTO(entry.getId(), entry.getExercises().stream()
+        .map(exercise -> new ViewExerciseTemplateDTO(exercise.getExercisePriority(),
+        exercise.getNumSets(), exercise.getSets(), exercise.getExerciseType().getName()))
+        .toList(), entry.getCreator().id());
+    }
+
+
     private ExerciseType findExerciseType(Long id){
         Optional<ExerciseType> type = exerciseTypeRepository.findById(id);
         if(type.isEmpty()){
             throw new ExerciseTypeNotFoundException(id);
         }
         return type.get();
-    }
-
-    @Override
-    public List<ViewWorkoutTemplateDTO> findTemplatesByCreator(UserId userId) {
-        List<WorkoutTemplate> entries = workoutTemplateRepository.findByCreator(userId);
-        return entries.stream()
-                .map(entry -> new ViewWorkoutTemplateDTO(entry.getId(), entry.getExercises().stream()
-                        .map(exercise -> new ViewExerciseTemplateDTO(exercise.getExercisePriority(),
-                                exercise.getNumSets(), exercise.getSets(), exercise.getExerciseType().getName()))
-                        .toList(), entry.getCreator().id()))
-                .toList();
     }
 
 }
