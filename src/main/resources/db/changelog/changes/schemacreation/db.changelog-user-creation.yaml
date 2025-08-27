@@ -15,7 +15,7 @@ databaseChangeLog:
                 name: name
                 type: varchar
         - createTable:
-            tableName: weighthistory
+            tableName: weight_history
             columns:
             - column:
                 name: id
@@ -26,7 +26,7 @@ databaseChangeLog:
                 name: weight
                 type: decimal
             - column:
-                name: weighInDate
+                name: weigh_in_date
                 type: datetime
             - column:
                 name: user_id

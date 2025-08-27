@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: db.changelog-exercise-template-creation
+      author: rdkln
+      changes:
+        - createTable:
+            tableName: workout_template
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: creator
+                  type: bigserial
+        - createTable:
+            tableName: exercise_template
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: exercise_priority
+                  type: int
+              - column:
+                  name: num_sets
+                  type: int
+              - column:
+                  name: sets
+                  type: varchar
+              - column:
+                  name: type
+                  type: bigserial
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_workout_type_id
+                    references: exercise_type(id)
+              - column:
+                  name: workout_template
+                  type: bigserial
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_workout_template_id
+                    references: workout_template(id)

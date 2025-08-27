@@ -1,6 +1,7 @@
 package dev.rdkln.tracker.workoutsession.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.rdkln.tracker.exercise.domain.Exercise;
@@ -14,23 +15,31 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-public class Workoutsession {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class WorkoutSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Embedded
     @AttributeOverride(name = "id", column = @Column(name = "user_id"))
     private UserId userId;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
-    private List<Exercise> exercises;
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE, mappedBy = "workoutSession")
+    @Default
+    private List<Exercise> exercises = new ArrayList<>();
 
 }
