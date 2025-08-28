@@ -15,7 +15,7 @@ public class WorkoutSessionNotFoundException extends RuntimeException {
     }
 
     public WorkoutSessionNotFoundException(UserId userId, LocalDate date) {
-        super(String.format("Workout with userId: %s and date: %s not found:", userId, date));
+        super(String.format("Workout with userId: %s and date: %s not found:", userId.id(), date));
     }
 
 }
